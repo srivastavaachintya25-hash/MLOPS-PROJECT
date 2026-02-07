@@ -1,0 +1,57 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: data/raw/household_power_consumption.csv
+      hash: md5
+      md5: 1bfcef05fae88bf47af346e86781de58
+      size: 49318286
+    - path: params.yaml
+      hash: md5
+      md5: 9054c8284a8f024e4dcd8ced7df33e68
+      size: 326
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: c45bb78954d227a407806771afb2bad7
+      size: 938
+    outs:
+    - path: data/processed/cleaned_data.csv
+      hash: md5
+      md5: e070c43456ebc4254efd34347300fbd0
+      size: 52942817
+  data_cleaning:
+    cmd: python src/data_cleaning.py
+    deps:
+    - path: data/processed/cleaned_data.csv
+      hash: md5
+      md5: e070c43456ebc4254efd34347300fbd0
+      size: 52942817
+    - path: params.yaml
+      hash: md5
+      md5: 9054c8284a8f024e4dcd8ced7df33e68
+      size: 326
+    - path: src/data_cleaning.py
+      hash: md5
+      md5: 47a577937e38e9cc9be111489c94e607
+      size: 1277
+    outs:
+    - path: data/processed/final_data.csv
+      hash: md5
+      md5: 8ac04539b09b21d1491fcca1b1af7406
+      size: 47065189
+  training:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/final_data.csv
+      hash: md5
+      md5: 8ac04539b09b21d1491fcca1b1af7406
+      size: 47065189
+    - path: params.yaml
+      hash: md5
+      md5: 9054c8284a8f024e4dcd8ced7df33e68
+      size: 326
+    - path: src/train.py
+      hash: md5
+      md5: 56868e3971d39ae5ca2821dc3d6b64b0
+      size: 1368

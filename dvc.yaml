@@ -1,0 +1,25 @@
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+      - src/data_ingestion.py
+      - data/raw/household_power_consumption.csv
+      - params.yaml
+    outs:
+      - data/processed/cleaned_data.csv
+
+  data_cleaning:
+    cmd: python src/data_cleaning.py
+    deps:
+      - src/data_cleaning.py
+      - data/processed/cleaned_data.csv
+      - params.yaml
+    outs:
+      - data/processed/final_data.csv
+
+  training:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/final_data.csv
+      - params.yaml
